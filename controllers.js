@@ -1,73 +1,50 @@
-"use strict"
+"use strict";
 
-app.controller("CartCtrl", ["$scope", function(scope) {
-  scope.products = [
-    { 
-      value: "guidance", 
-      label: "Guidance", 
-      price: 
-      {
-        "monthly": 35,
-        "yearly": 350
-      },
-      addons: 
-      { 
-        name: "Downloadable Documents",
-        price:
-        {
-          "monthly": 10,
-          "yearly": 100
-        }
-      }
-    },
+cart.controller("CartCtrl", function($scope, Products, Terms, Users) {
+  $scope.products = Products;
+  $scope.terms = Terms;
+  $scope.users = Users;
 
-    { 
-      value: "advancenotice", 
-      label: "AdvanceNotice",
-      price:
-      {
-        "monthly": 40,
-        "yearly": 400
-      },
-    },
+  // Defaults
+  $scope.product = "guidance";
+  $scope.isComponentSelected = false;
+  $scope.user = "0";
+  $scope.term = "monthly";
 
-    { 
-      value: "workcenter", 
-      label: "Workcenter", 
-      price:
-      {
-        "monthly": 50,
-        "yearly": 500
-      },
-      addons: 
-      {
-        name: "Client Gateway",
-        price:
-        {
-          "monthly": 10,
-          "yearly": 100
-        } 
-      }
-    }
-  ];
+  // Tests
+  var isProductSelected = $scope.products[$scope.product] != null;
+  var isUserSelected = $scope.user != null;
+  var isTermSelected = $scope.term != null;
 
-  scope.promoCodes = [
-    {
-      "INTUIT50":
-      {
-        discount: 0.5
-      }
-    }
-  ];
+  $scope.calcUsersPrice = function() {
+    if (!isUserSelected || !isTermSelected) 
+      return 0;
 
-  scope.promoCode = "INTUIT50";
+    var basePrice = $scope.user * $scope.products[$scope.product].users.price[$scope.term];
 
-  scope.discount = (scope.promoCode != null) ? scope.promoCodes[0][scope.promoCode].discount : 0;
+    var calcComponentPrice = function() {
+      if (!isProductSelected || !$scope.isComponentSelected) 
+        return 0;
 
-  scope.calcTotal = function() {
-    var basePrice = (scope.billing != null) ? scope.product.price[scope.billing] : 0;
-    var addonPrice = (scope.addon) ? scope.product.addons.price[scope.billing] : 0;
+      return ($scope.user * $scope.products[$scope.product].components.users.price[$scope.term]);
+    };
 
-    return (basePrice + addonPrice) * (1 - scope.discount);
-  }
-}]);
+    return basePrice + calcComponentPrice();
+  };
+
+  $scope.calcTotal = function() {
+    if ($scope.product == null || $scope.term == null)
+      return 0;
+
+    var basePrice = $scope.products[$scope.product].price[$scope.term];
+    var componentPrice = ($scope.isComponentSelected) ? $scope.products[$scope.product].components.price[$scope.term] : 0;
+    var usersPrice = $scope.calcUsersPrice();
+
+    return basePrice + componentPrice + usersPrice;
+  };
+
+  $scope.submitOrder = function() {
+    alert("Thanks");
+  };
+
+});

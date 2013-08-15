@@ -1,3 +1,3 @@
 "use strict";
 
-var app = angular.module("cartApp", []);
+var cart = angular.module("cart", []);
