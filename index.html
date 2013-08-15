@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <title>Beyond415 Angular Cart</title>
+
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css">
+
+  <style>
+    label { display: block; font-weight: normal; }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  <script src="cart.js"></script>
+  <script src="controllers.js"></script>
+</head>
+<body ng-app="cartApp">
+  <div class="container" ng-controller="CartCtrl">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2">
+        <h3>Config</h3>
+
+        <div class="form-group">
+          <label><h4>Product</h4></label>
+          <select id="product" ng-model="product" ng-options="product as product.label for product in products">
+          </select>
+        </div>
+
+        <div class="form-group" ng-hide="product.addons == null">
+          <label>
+            <h4>Add-ons</h4>
+            <input type="checkbox" id="addon" value="{{ product.addons }}" ng-model="addon"> 
+            {{ product.addons.name }}
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label><h4>Billing Period</h4></label>
+          <select id="billing" ng-model="billing">
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <h3>Cart</h3>
+        <table class="table table-bordered">
+          <tr>
+            <th>Product</th>
+            <td>{{ product.label }} 
+            <td><span ng-hide="product == null">${{ product.price[billing] }}</span></td>
+          </tr>
+          <tr ng-hide="product.addons != null && !addon">
+            <th>Add-Ons</th>
+            <td>{{ product.addons.name }}</td>
+            <td>${{ product.addons.price[billing] }}</td>
+          </tr>
+          <tr>
+            <th>Billing</th>
+            <td>{{ billing }}</td>
+            <td></td>
+          </tr>
+          <tr ng-hide="promoCode == null">
+            <th>Promotion</th>
+            <td>{{ promoCode }}</td>
+            <td>{{ discount }}</td>
+          </tr>
+          <tr>
+            <th colspan="2">TOTAL</th>
+            <th>${{ calcTotal(); }}</th>
+          </tr>
+        </table>
+      </div>
+  </div>
+</body>
+</html>
