@@ -6,10 +6,14 @@
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css">
 
   <style>
-    body { padding-top: 40px; }
+    body { background: #f9f9f9; padding-top: 10px; }
     h3.page-header { margin-top: 0; }
     label { display: block; font-weight: normal; }
     ul { margin-bottom: 0; }
+    .list-inline :first-child { padding-left: 0; }
+    select { padding: 4px; }
+    .row { margin-bottom: 20px; }
+    p:last-child { margin-bottom: 0; }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
@@ -21,15 +25,20 @@
   <div class="container" ng-controller="CartCtrl">
     <div class="row">
       <div class="col-md-12">
+        <h1>B415 AngularJS Cart demo</h1>
+        <p>Reproducing B415 cart functionality using AngularJS. (<a href="https://github.com/tylerrash/b415-angular-cart">repository</a>)
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
         <div class="panel">
-          <div class="panel-heading"><strong>Scenarios</strong></div>
-          <div class="panel-body">
-            <ul class="list-inline">
-                <li><button class="btn btn-default" href="#" ng-click="defaultSignup()">Default</button></li>
-                <li><button class="btn btn-default" ng-click="setPromoCode('DISCOUNT50')">50% promo</button></li>
-                <li><button class="btn btn-default" ng-click="upgradeToWorkCenter()">Upgrade to WorkCenter</button></li>
-            </ul>
-          </div>
+          <ul class="list-inline panel-body">
+            <li><strong>Tests:</strong></li>
+            <li><a href="#" ng-click="setPromoCode()">Default</a></li>
+            <li><a href="#" ng-click="setPromoCode('DISCOUNT50')">50% promo</a></li>
+            <!-- <li><a href="#" ng-click="upgradeToWorkCenter()">Upgrade to WorkCenter</a></li> -->
+          </ul>
         </div>
       </div>
     </div>
@@ -96,9 +105,13 @@
                 <td>{{ user }}</td>
                 <td>${{ calcUsersPrice() }}</td>
               </tr>
+              <tr ng-hide="promoCode == null">
+                <th>Promotion</th>
+                <td>{{ promos[promoCode].name }}</td>
+                <td>-${{ calcDiscount() }}</td>
               <tr>
                 <th colspan="2">TOTAL<span ng-hide="term == null"> (billed {{ term }})</span>:</th>
-                <th>${{ calcTotal(); }}</th>
+                <th>${{ calcTotal() }}</th>
             </table>
 
             <button 

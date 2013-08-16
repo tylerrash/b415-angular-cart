@@ -87,7 +87,7 @@ cart.factory("Products", function() {
       },
       "users":
       {
-        "price": 
+        "price":
         {
           "monthly": 25,
           "yearly": 250
@@ -114,6 +114,17 @@ cart.factory("Terms", function() {
 
 cart.factory("Users", function() {
   return [0, 1, 2, 3, 4, 5, 6, 7, 8];
+});
+
+cart.factory("Promos", function() {
+  return {
+    "DISCOUNT50":
+    {
+      "id": "DISCOUNT50",
+      "name": "50% discount",
+      "discount": 0.5
+    }
+  };
 });
 
 cart.factory("Configurations", function() {
