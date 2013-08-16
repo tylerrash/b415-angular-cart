@@ -14,6 +14,7 @@
     select { padding: 4px; }
     .row { margin-bottom: 20px; }
     p:last-child { margin-bottom: 0; }
+    .muted { color: #999; }
   </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
@@ -121,6 +122,9 @@
               Purchase
             </button>
           </div>
+        </div>
+        <div class="alert alert-info">
+          <strong>Last action:</strong> {{ debugMsg }}
         </div>
       </div>
     </div>

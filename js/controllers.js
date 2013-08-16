@@ -76,4 +76,28 @@ cart.controller("CartCtrl", function($scope, Products, Terms, Users, Promos) {
     alert("Thanks");
   };
 
+  // Debug
+
+  $scope.$watch('product', function() {
+    $scope.debugMsg = 'Product changed to ' + $scope.products[$scope.product].name;
+  });
+
+  $scope.$watch('isComponentSelected', function() {
+    if ($scope.isComponentSelected)
+      $scope.debugMsg = 'Added add-on (' + $scope.products[$scope.product].components.name + ')';
+    else
+      $scope.debugMsg = 'Removed add-on (' + $scope.products[$scope.product].components.name + ')';
+  });
+
+  $scope.$watch('user', function() {
+    $scope.debugMsg = 'Additional users changed to ' + $scope.user;
+  });
+
+  $scope.$watch('term', function() {
+    $scope.debugMsg = 'Term changed to ' + $scope.term;
+  });
+
+  $scope.$watch('promoCode', function() {
+    $scope.debugMsg = 'Promo code changed to ' + $scope.promoCode;
+  });
 });
